@@ -1,0 +1,11 @@
+.no-match {
+    padding: 30vh 15vw;
+    height: calc(100vh - 56px);
+    background-image: url("../assets/404_l.webp");
+    background-size: cover;
+    background-position: center;
+}
+
+.no-match > .jumbotron {
+    background-color: rgba(233, 236, 239, 0.7);
+}
