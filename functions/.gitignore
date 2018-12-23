@@ -7,4 +7,5 @@ typings/
 
 /node_modules
 
-id.json
+credentials.js
+firebase-debug.log
