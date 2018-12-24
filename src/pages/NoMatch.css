@@ -1,6 +1,7 @@
 .no-match {
     padding: 30vh 15vw;
     height: calc(100vh - 56px);
+    width: 100vw;
     background-image: url("../assets/404_l.webp");
     background-size: cover;
     background-position: center;

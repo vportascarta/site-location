@@ -14,6 +14,7 @@ import {
 import './Home.css';
 import tignesIMG from '../../assets/tignes.webp'
 import faroIMG from '../../assets/faro.webp'
+import {Link} from 'react-router-dom';
 
 class Home extends React.Component {
     render() {
@@ -21,7 +22,7 @@ class Home extends React.Component {
 
         return (
             <React.Fragment>
-                <div className='home'>
+                <div className='home-header'>
                     <Jumbotron>
                         <h1 className="display-3">{t('home_welcome')}</h1>
                         <p className="lead">{t('home_welcome_subtitle')}</p>
@@ -30,7 +31,7 @@ class Home extends React.Component {
                     </Jumbotron>
                 </div>
 
-                <div style={{margin: '20px'}}>
+                <div style={{padding: '20px'}}>
                     <h1>{t('home_card_title')}</h1>
 
                     <CardDeck>
@@ -41,7 +42,7 @@ class Home extends React.Component {
                                     <CardTitle>{t('tignes_title')}</CardTitle>
                                     <CardSubtitle>{t('tignes_subtitle')}</CardSubtitle>
                                     <CardText className="block-with-text">{t('random')}</CardText>
-                                    <Button>{t('more_info')}</Button>
+                                    <Button tag={Link} to="/tignes">{t('more_info')}</Button>
                                 </div>
                             </CardImgOverlay>
                         </Card>
@@ -52,7 +53,7 @@ class Home extends React.Component {
                                     <CardTitle>{t('faro_title')}</CardTitle>
                                     <CardSubtitle>{t('faro_subtitle')}</CardSubtitle>
                                     <CardText className="block-with-text">{t('random')}</CardText>
-                                    <Button>{t('more_info')}</Button>
+                                    <Button tag={Link} to="/faro">{t('more_info')}</Button>
                                 </div>
                             </CardImgOverlay>
                         </Card>

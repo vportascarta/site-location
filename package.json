@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "animated": "^0.2.2",
     "bootstrap": "^4.2.1",
     "i18next": "^13.0.0",
     "i18next-browser-languagedetector": "^2.2.4",
@@ -11,8 +10,8 @@
     "react-dom": "^16.7.0",
     "react-i18next": "^8.4.0",
     "react-router-dom": "^4.3.1",
+    "react-router-transition": "^1.2.1",
     "react-scripts": "2.1.1",
-    "react-transition-group": "^2.5.2",
     "reactstrap": "^6.5.0"
   },
   "scripts": {
@@ -20,7 +19,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "react-scripts build && firebase deploy --only hosting"
   },
   "eslintConfig": {
     "extends": "react-app"

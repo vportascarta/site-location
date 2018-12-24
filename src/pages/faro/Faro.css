@@ -1,9 +1,9 @@
-.home-header {
-    background-image: url("../../assets/home_m.webp");
+.faro-header {
+    background-image: url("../../assets/faro.webp");
     background-size: cover;
     background-position: center;
 }
 
-.home-header > .jumbotron {
+.faro-header > .jumbotron {
     background-color: rgba(233, 236, 239, 0.7);
 }

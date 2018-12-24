@@ -1,9 +1,9 @@
-.home-header {
-    background-image: url("../../assets/home_m.webp");
+.tignes-header {
+    background-image: url("../../assets/tignes.webp");
     background-size: cover;
     background-position: center;
 }
 
-.home-header > .jumbotron {
+.tignes-header > .jumbotron {
     background-color: rgba(233, 236, 239, 0.7);
 }

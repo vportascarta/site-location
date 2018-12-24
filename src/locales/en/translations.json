@@ -12,7 +12,10 @@
   "tignes_subtitle": "Have fun in the mountains",
   "faro_title": "Faro (PORTUGAL)",
   "faro_subtitle": "Enjoy the sea",
+  "contact_title": "Contact us",
+  "contact_subtitle": "For more information please fill the form below",
   "error": "Error",
   "404_text": "This page is not available",
-  "random": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod accumsan nulla, euismod viverra elit facilisis ut. Aenean tellus mauris, molestie eu scelerisque at, convallis eu augue. Proin ullamcorper urna et est molestie vestibulum. Proin rutrum lobortis gravida."
+  "random": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod accumsan nulla, euismod viverra elit facilisis ut. Aenean tellus mauris, molestie eu scelerisque at, convallis eu augue. Proin ullamcorper urna et est molestie vestibulum. Proin rutrum lobortis gravida.",
+  "soon": "Coming soon..."
 }

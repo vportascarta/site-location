@@ -1,0 +1,9 @@
+.contact-header {
+    background-image: url("../../assets/contacts.webp");
+    background-size: cover;
+    background-position: center;
+}
+
+.contact-header > .jumbotron {
+    background-color: rgba(233, 236, 239, 0.85);
+}
