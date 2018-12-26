@@ -15,6 +15,7 @@
     "firebase-functions": "^2.1.0",
     "google-auth-library": "^2.0.2",
     "googleapis": "^36.0.0",
+    "node-fetch": "^2.3.0",
     "nodemailer": "^4.7.0"
   },
   "devDependencies": {

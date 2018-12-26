@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 const {OAuth2Client} = require('google-auth-library');
 const {google} = require('googleapis');
 const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
 const credentials = require('../credentials.js');
 
 // Interfaces
@@ -18,8 +19,8 @@ interface PricePeriod {
 }
 
 enum Places {
-    Tignes = "tignes",
-    Faro = "faro"
+    Tignes = 'tignes',
+    Faro = 'faro'
 }
 
 interface InfoMail {
@@ -27,7 +28,8 @@ interface InfoMail {
     senderMail: string,
     place: Places,
     dates: Period
-    message: string
+    message: string,
+    captcha: string
 }
 
 // Init App & Auth
@@ -40,6 +42,7 @@ let oauthTokens = null;
 const DB_TOKEN_PATH = '/api_tokens';
 const DB_DISPO_PATH = '/dispo';
 const DB_PRICES_PATH = '/prices';
+const UPDATE_TIME = 10 * 60 * 1000; // 10 min
 
 const mailConfig = {
     host: credentials.mail_server,
@@ -66,12 +69,14 @@ exports.authgoogleapi = functions.https.onRequest((req, res) => {
                 }));
                 return;
             } else {
-                res.status(403).send("Already connected");
+                console.warn('Already connected');
+                res.status(403).send('Already connected');
                 return;
             }
         })
         .catch((err) => {
-            res.status(500).send("An error as occur : " + err);
+            console.error('An error as occur : ' + err);
+            res.status(500).send('An error as occur : ' + err);
             return;
         })
 });
@@ -84,11 +89,13 @@ exports.oauthcallback = functions.https.onRequest((req, res) => {
     functionsOauthClient.getToken(code, (err, tokens) => {
         // Now tokens contains an access_token and an optional refresh_token. Save them.
         if (err) {
-            res.status(500).send("An error as occur : " + err);
+            console.error('An error as occur : ' + err);
+            res.status(500).send('An error as occur : ' + err);
             return;
         }
         return admin.database().ref(DB_TOKEN_PATH).set(tokens)
             .then(() => {
+                console.info('App successfully configured with new Credentials.');
                 res.status(200).send('App successfully configured with new Credentials. You can now close this page.');
                 return;
             });
@@ -122,7 +129,7 @@ function readDataFromCalandar() {
                 const calendar = google.calendar({version: 'v3', auth});
                 return calendar.events.list(config, (err, response) => {
                     if (err) {
-                        console.log(`The API returned an error: ${err}`);
+                        console.error('An error as occur : ' + err);
                         reject(err);
                     }
                     resolve(response.data.items);
@@ -145,7 +152,7 @@ function readDataFromSheet(sheet_name: string) {
                 const sheets = google.sheets({version: 'v4', auth});
                 return sheets.spreadsheets.values.get(config, (err, response) => {
                     if (err) {
-                        console.log(`The API returned an error: ${err}`);
+                        console.error('An error as occur : ' + err);
                         reject(err);
                     }
                     resolve(response.data.values);
@@ -208,11 +215,17 @@ function fetchPricePeriods(location_name: string): Promise<void> {
 
 // Export functions
 exports.indisponibility = functions.https.onRequest((req, res) => {
+    //set JSON content type and CORS headers for the response
+    res.header('Content-Type', 'application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
     // Grab the location name parameter.
     const location_name: Places = req.query.location;
 
     // Check for a correct request
-    if (req.method !== "GET" || location_name === undefined) {
+    if (req.method !== 'GET' || location_name === undefined) {
+        console.warn('Please send a correct request');
         res.status(400).send('Please send a correct request');
         return;
     }
@@ -222,8 +235,14 @@ exports.indisponibility = functions.https.onRequest((req, res) => {
         .once('value')
         .then((snapshot) => {
             const updatedAt: number = snapshot.val();
-            if (Date.now() > updatedAt + 24 * 60 * 60 * 1000) {
-                fetchIndisponibility(location_name).then(() => sendRes()).catch();
+            if (Date.now() > updatedAt + UPDATE_TIME) {
+                fetchIndisponibility(location_name)
+                    .then(() => sendRes())
+                    .catch((err) => {
+                        console.error('An error as occur : ' + err);
+                        res.status(500).send('An error as occur : ' + err);
+                        return;
+                    });
                 return;
             } else {
                 sendRes();
@@ -231,7 +250,8 @@ exports.indisponibility = functions.https.onRequest((req, res) => {
             }
         })
         .catch((err) => {
-            res.status(500).send("An error as occur : " + err);
+            console.error('An error as occur : ' + err);
+            res.status(500).send('An error as occur : ' + err);
             return;
         });
 
@@ -240,22 +260,30 @@ exports.indisponibility = functions.https.onRequest((req, res) => {
             .once('value')
             .then((snapshot_) => {
                 const indispos: Period[] = snapshot_.val();
+                console.info('Replied : ' + indispos);
                 res.status(200).send(indispos);
                 return;
             })
             .catch((err) => {
-                res.status(500).send("An error as occur : " + err);
+                console.error('An error as occur : ' + err);
+                res.status(500).send('An error as occur : ' + err);
                 return;
             });
     }
 });
 
 exports.priceperiods = functions.https.onRequest((req, res) => {
+    //set JSON content type and CORS headers for the response
+    res.header('Content-Type', 'application/json');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
     // Grab the location name parameter.
     const location_name: Places = req.query.location;
 
     // Check for a correct request
-    if (req.method !== "GET" || location_name === undefined) {
+    if (req.method !== 'GET' || location_name === undefined) {
+        console.warn('Please send a correct request');
         res.status(400).send('Please send a correct request');
         return;
     }
@@ -265,7 +293,7 @@ exports.priceperiods = functions.https.onRequest((req, res) => {
         .once('value')
         .then((snapshot) => {
             const updatedAt: number = snapshot.val();
-            if (Date.now() > updatedAt + 24 * 60 * 60 * 1000) {
+            if (Date.now() > updatedAt + UPDATE_TIME) {
                 fetchPricePeriods(location_name).then(() => sendRes()).catch();
                 return;
             } else {
@@ -274,7 +302,8 @@ exports.priceperiods = functions.https.onRequest((req, res) => {
             }
         })
         .catch((err) => {
-            res.status(500).send("An error as occur : " + err);
+            console.error('An error as occur : ' + err);
+            res.status(500).send('An error as occur : ' + err);
             return;
         });
 
@@ -283,27 +312,34 @@ exports.priceperiods = functions.https.onRequest((req, res) => {
             .once('value')
             .then((snapshot_) => {
                 const prices: PricePeriod[] = snapshot_.val();
+                console.info('Replied : ' + prices);
                 res.status(200).send(prices);
                 return;
             })
             .catch((err) => {
-                res.status(500).send("An error as occur : " + err);
+                console.error('An error as occur : ' + err);
+                res.status(500).send('An error as occur : ' + err);
                 return;
             });
     }
 });
 
 exports.sendemail = functions.https.onRequest((req, res) => {
+    //set JSON content type and CORS headers for the response
+    res.header('Content-Type', 'text/plain');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+
     // Check for a correct request
-    if (req.method !== "POST" || req.body === undefined) {
+    if (req.method !== 'POST' || req.body === undefined) {
+        console.warn('Please send a correct request');
         res.status(400).send('Please send a correct request');
         return;
     }
 
-    const transporter = nodemailer.createTransport(mailConfig);
-
     // Extract data
-    const data: InfoMail = req.body;
+    const data: InfoMail = JSON.parse(req.body);
+    console.info(data);
 
     const message = {
         from: credentials.mail_user,
@@ -312,19 +348,34 @@ exports.sendemail = functions.https.onRequest((req, res) => {
         text:
             `Vous avez reçu une demande de renseignement pour le logement ${data.place} :
 - Nom : ${data.name}
-- Dates : Du ${data.dates.start.toLocaleDateString("fr-FR")} au ${data.dates.end.toLocaleDateString("fr-FR")}
+- Dates : Du ${data.dates.start} au ${data.dates.end}
 - Email pour répondre : ${data.senderMail}
 
 ${data.message}`
     };
 
-    transporter.sendMail(message)
+    fetch(`https://recaptcha.google.com/recaptcha/api/siteverify?secret=${credentials.captcha_secret}&response=${data.captcha}`, {
+        method: 'POST',
+    })
+        .then(result => result.json())
+        .then(result =>
+            new Promise((resolve, reject) => {
+                    if (result.success) {
+                        const transporter = nodemailer.createTransport(mailConfig);
+                        resolve(transporter.sendMail(message))
+                    } else {
+                        reject('Captcha not verified')
+                    }
+                }
+            ))
         .then(() => {
+            console.info('Message sent');
             res.status(200).send('Message sent');
             return;
         })
         .catch((err) => {
-            res.status(500).send("An error as occur : " + err);
+            console.error('An error as occur : ' + err);
+            res.status(500).send('An error as occur : ' + err);
             return;
         });
 });

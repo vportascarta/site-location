@@ -7,3 +7,13 @@
 .contact-header > .jumbotron {
     background-color: rgba(233, 236, 239, 0.85);
 }
+
+.contact-form {
+    margin: 0 15vw;
+}
+
+@media (max-width: 768px) {
+    .contact-form {
+        margin: 0;
+    }
+}

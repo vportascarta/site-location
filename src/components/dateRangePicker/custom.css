@@ -1,0 +1,11 @@
+.DateRangePicker__PaginationArrow--previous {
+    left: 0;
+}
+
+.DateRangePicker__PaginationArrow--next {
+    right: 0;
+}
+
+.DateRangePicker__Month {
+    margin: 0;
+}

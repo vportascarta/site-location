@@ -1,9 +1,11 @@
 {
   "back": "Back",
   "more_info": "More info",
+
   "main_title": "Biovital Renting",
   "contact_us": "Contact us",
   "language": "Language",
+
   "home_welcome": "Welcome",
   "home_card_title": "Here are our rentals:",
   "home_welcome_subtitle": "We offer beautiful rentals in the mountains or the sea for an unforgettable holiday.",
@@ -14,7 +16,26 @@
   "faro_subtitle": "Enjoy the sea",
   "contact_title": "Contact us",
   "contact_subtitle": "For more information please fill the form below",
+  "form": "Contact form",
+  "name": "Name",
+  "email": "Email for the answer",
+  "place": "Renting",
+  "dates": "Period",
+  "dates_help": "Please select a renting to see availability",
+  "period_selected": "Period selected",
+  "unavailable": "Not available",
+  "message": "Write your message",
+  "validation": "Anti-SPAM (please check the box and answer questions if necessary)",
+  "submit": "Submit",
+  "form_modal_title_success": "Request sent",
+  "form_modal_title_error": "Error processing the request",
+  "form_modal_body_success": "Your message has been sent. We will answer you as soon as possible.",
+  "form_modal_body_error": "Please start again in a few minutes.",
+
   "error": "Error",
+  "error_not_empty": "Please fill the field",
+  "error_valid_email": "Please enter a valid email",
+
   "404_text": "This page is not available",
   "random": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod accumsan nulla, euismod viverra elit facilisis ut. Aenean tellus mauris, molestie eu scelerisque at, convallis eu augue. Proin ullamcorper urna et est molestie vestibulum. Proin rutrum lobortis gravida.",
   "soon": "Coming soon..."

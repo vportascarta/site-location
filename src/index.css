@@ -23,14 +23,10 @@ code {
     position: relative;
 }
 
-/*noinspection CssInvalidPropertyValue*/
 .switch-wrapper > div {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    height: -moz-available; /* WebKit-based browsers will ignore this. */
-    height: -webkit-fill-available; /* Mozilla-based browsers will ignore this. */
-    height: fill-available;
+    width: 100vw;
+    height: calc(100vh - 56px);
     overflow: auto;
 }
 

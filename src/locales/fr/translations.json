@@ -1,9 +1,11 @@
 {
   "back": "Retour",
   "more_info": "Plus d'info",
+
   "main_title": "Biovital Locations",
   "contact_us": "Contactez-nous",
   "language": "Langue",
+
   "home_welcome": "Bienvenue",
   "home_card_title": "Voici nos locations :",
   "home_welcome_subtitle": "Nous proposons de magnifiques locations à la montagne ou à la  mer pour des vacances inoubliables.",
@@ -14,7 +16,26 @@
   "faro_subtitle": "Air marin",
   "contact_title": "Contactez-nous",
   "contact_subtitle": "Pour plus d'information, veuillez remplir le formulaire ci-dessous",
+  "form": "Formulaire de contact",
+  "name": "Nom",
+  "email": "Email pour la réponse",
+  "place": "Location",
+  "dates": "Période",
+  "dates_help": "Veuillez choisir une location pour voir les disponibilités",
+  "period_selected": "Période sélectionnée",
+  "unavailable": "Pas disponible",
+  "message": "Ecrivez votre message",
+  "validation": "Anti-SPAM (veuillez cocher la case et répondre aux questions si nécessaire)",
+  "submit": "Envoyer",
+  "form_modal_title_success": "Demande envoyée",
+  "form_modal_title_error": "Erreur dans le traitement de la demande",
+  "form_modal_body_success": "Votre message a été envoyé. Nous vous répondrons dans les plus bref délais.",
+  "form_modal_body_error": "Veuillez recommencer dans quelques minutes.",
+
   "error": "Erreur",
+  "error_not_empty": "Veuillez remplir ce champ",
+  "error_valid_email": "Veuillez indiquer un email valide",
+
   "404_text": "La page que vous demandez n'est pas disponible",
   "random": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam euismod accumsan nulla, euismod viverra elit facilisis ut. Aenean tellus mauris, molestie eu scelerisque at, convallis eu augue. Proin ullamcorper urna et est molestie vestibulum. Proin rutrum lobortis gravida. Praesent elementum ac libero efficitur iaculis. Nullam sit amet vulputate odio. Praesent tincidunt, orci at viverra molestie, ante ex luctus risus, quis sollicitudin tellus nunc at purus.",
   "soon": "A venir..."

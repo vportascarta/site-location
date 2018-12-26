@@ -5,6 +5,11 @@ import {reactI18nextModule} from 'react-i18next';
 import translationEN from './locales/en/translations.json';
 import translationFR from './locales/fr/translations.json';
 
+import moment from 'moment';
+import 'moment/locale/fr';
+
+moment.locale('fr');
+
 const resources = {
     fr: {
         translation: translationFR
